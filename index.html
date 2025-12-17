@@ -1,1 +1,672 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>আশা আন্টির উপহার কালেকশন</title>
+    <!-- Hind Siliguri for clear Bengali text -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --border: #cbd5e1;
+            --success: #16a34a; 
+            --warning: #f59e0b;
+            
+            /* Dynamic Font Size Variable */
+            --base-font-size: 20px; 
+        }
 
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding: 10px;
+            line-height: 1.5;
+            font-size: var(--base-font-size);
+            transition: font-size 0.2s ease;
+            -webkit-text-size-adjust: 100%;
+            padding-bottom: 40px; 
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px 0;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 1.5em;
+            margin: 0;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 0.8em;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--primary);
+            color: white;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+        }
+
+        .stat-label {
+            font-size: 0.75em;
+            opacity: 0.9;
+            margin-bottom: 2px;
+            white-space: nowrap;
+        }
+
+        .stat-value {
+            font-size: 1.4em;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Controls Area */
+        .controls-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Sticky Search Bar */
+        .sticky-header {
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: var(--bg-body);
+            padding-bottom: 5px;
+            margin: 0 -5px;
+            padding: 0 5px 10px 5px;
+        }
+
+        .search-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1em;
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            font-family: inherit;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+        }
+
+        .result-count {
+            font-size: 0.85em;
+            color: var(--success);
+            font-weight: 600;
+            min-height: 1.2em;
+            margin-left: 5px;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-big {
+            padding: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            font-family: inherit;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            min-height: 50px;
+        }
+
+        .btn-big:active {
+            background-color: #f1f5f9;
+            transform: scale(0.98);
+        }
+        
+        /* Print Button Specifics */
+        .btn-print {
+            background-color: #334155; /* Slate-700 */
+            color: white;
+            border-color: #334155;
+            margin-top: 5px;
+        }
+        .btn-print:hover {
+            background-color: #1e293b;
+        }
+
+        /* Sort Section (Radio Buttons) */
+        .sort-section {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .sort-title {
+            font-size: 0.9em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary);
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 5px;
+        }
+
+        .sort-option {
+            display: flex;
+            align-items: center;
+            padding: 8px 5px;
+            margin-bottom: 2px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .sort-option:hover {
+            background-color: #f8fafc;
+        }
+
+        .sort-option input[type="radio"] {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .sort-option span {
+            font-size: 0.95em;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        /* Table */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f1f5f9;
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.85em;
+            border-bottom: 2px solid var(--border);
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .col-serial { 
+            width: 45px; 
+            text-align: center; 
+            color: var(--text-muted); 
+            font-size: 0.9em;
+            padding-left: 5px;
+        }
+        
+        .col-amount { 
+            text-align: right; 
+            font-weight: 700; 
+            color: var(--primary); 
+            white-space: nowrap; 
+            width: 25%;
+        }
+
+        .col-info {
+            width: auto;
+        }
+
+        /* --- PRINT STYLES --- */
+        @media print {
+            .controls-area, .sticky-header, .no-print {
+                display: none !important;
+            }
+            body {
+                background: white;
+                color: black;
+                font-size: 14px;
+                padding: 0;
+            }
+            .container {
+                max-width: 100%;
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+            }
+            header {
+                box-shadow: none;
+                margin-bottom: 10px;
+                padding: 0;
+                border: none;
+            }
+            h1 {
+                color: black;
+                font-size: 18pt;
+            }
+            .stat-card {
+                background: none !important;
+                color: black !important;
+                border: 1px solid #000;
+                box-shadow: none;
+                padding: 10px;
+            }
+            .stat-value {
+                font-size: 1.2em;
+            }
+            .table-container {
+                box-shadow: none;
+                border: none;
+                border-radius: 0;
+            }
+            table {
+                width: 100%;
+            }
+            th, td {
+                border: 1px solid #000;
+                color: black;
+                padding: 8px;
+            }
+            th {
+                background-color: #eee !important;
+                -webkit-print-color-adjust: exact;
+            }
+            .col-amount {
+                color: black;
+            }
+            /* Hide URL/Page info if possible (browser dependent) */
+            @page {
+                margin: 1cm;
+            }
+        }
+
+        /* Mobile Specific Overrides */
+        @media (max-width: 600px) {
+            :root {
+                --base-font-size: 18px;
+            }
+            .container { padding-bottom: 40px; }
+            h1 { font-size: 1.4em; }
+            .btn-big { font-size: 0.8em; padding: 10px; }
+            td, th { padding: 10px 8px; }
+            .col-serial { width: 35px; padding-left: 2px; }
+            .search-input { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>আশা আন্টির উপহার তালিকা</h1>
+        <div class="subtitle">সহজ ড্যাশবোর্ড</div>
+    </header>
+
+    <!-- Big Numbers -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">মোট টাকা</div>
+            <div class="stat-value" id="totalAmount">০</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">মোট মানুষ</div>
+            <div class="stat-value" id="totalContributors">০</div>
+        </div>
+    </div>
+
+    <div class="controls-area">
+        <!-- Sticky Search Wrapper -->
+        <div class="sticky-header">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 নাম লিখে খুঁজুন..." autocomplete="off">
+                <div id="resultCount" class="result-count"></div>
+            </div>
+        </div>
+        
+        <!-- Font Buttons -->
+        <div class="button-group">
+            <button id="btnIncrease" class="btn-big">
+                <span style="font-size: 1.2em; margin-right: 5px;">A+</span> লেখা বড় করুন
+            </button>
+            <button id="btnDecrease" class="btn-big">
+                <span style="font-size: 0.8em; margin-right: 5px;">A-</span> লেখা ছোট করুন
+            </button>
+        </div>
+
+        <!-- Sort Section (Radio Buttons) -->
+        <div class="sort-section">
+            <div class="sort-title">তালিকা সাজানোর নিয়ম:</div>
+            
+            <label class="sort-option">
+                <input type="radio" name="sortMode" value="0" checked>
+                <span>সাধারণ (ক্রমিক নম্বর অনুযায়ী)</span>
+            </label>
+            
+            <label class="sort-option">
+                <input type="radio" name="sortMode" value="1">
+                <span>টাকার পরিমাণ (বেশি থেকে কম)</span>
+            </label>
+            
+            <label class="sort-option">
+                <input type="radio" name="sortMode" value="2">
+                <span>টাকার পরিমাণ (কম থেকে বেশি)</span>
+            </label>
+        </div>
+
+        <!-- Print Button -->
+        <button id="btnPrint" class="btn-big btn-print">
+            🖨️ তালিকা প্রিন্ট করুন
+        </button>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th class="col-serial">#</th>
+                    <th class="col-info">নাম ও ঠিকানা</th>
+                    <th class="col-amount">টাকা</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Rows render here -->
+            </tbody>
+        </table>
+        <div id="noResults" style="padding: 30px; text-align: center; display: none; color: var(--text-muted);">
+            কোন নাম পাওয়া যায়নি
+        </div>
+    </div>
+</div>
+
+<script>
+    // Embedded Data
+    const rawData = [{"নাম": "মো: সাইফুল ইসলাম", "ঠিকানা": "আখানগর", "পরিমান": 27500.0}, {"নাম": "সোহেল", "ঠিকানা": "গিলাবাড়ী", "পরিমান": 1020.0}, {"নাম": "মো:আব্দুল বারেক", "ঠিকানা": "দালালবস্তি", "পরিমান": 1000.0}, {"নাম": "কাদের BSc", "ঠিকানা": "তেলপাম্প(বালিয়াডাঙী", "পরিমান": 1500.0}, {"নাম": "রকিবুল", "ঠিকানা": "ইসলামবাগ(ঠাকুরগাও)", "পরিমান": 800.0}, {"নাম": "মো সামসুল হক", "ঠিকানা": "নিজ", "পরিমান": 1000.0}, {"নাম": "সাজু", "ঠিকানা": "তেলপাম্প(বালিয়াডাঙ্গি)", "পরিমান": 1000.0}, {"নাম": "মোজাম্মেল", "ঠিকানা": "নিজ", "পরিমান": 3000.0}, {"নাম": "এডভোকেট  ইউসুফ আলী", "ঠিকানা": "বালিয়াডাংগি", "পরিমান": 1000.0}, {"নাম": "এনায়েত হোসেন", "ঠিকানা": "সর্বমংলা", "পরিমান": 1000.0}, {"নাম": "ইউসুফ আলী", "ঠিকানা": "তেলপাম্প", "পরিমান": 1000.0}, {"নাম": "আওয়াল রব্বানী", "ঠিকানা": "নিজ", "পরিমান": 1200.0}, {"নাম": "রবিউল ইসলাম", "ঠিকানা": "নিজ", "পরিমান": 1000.0}, {"নাম": "মজিবুর রহমান", "ঠিকানা": "ঠাকুরগাও", "পরিমান": 1200.0}, {"নাম": "রবিউল ইসলাম রবি", "ঠিকানা": "নিজ", "পরিমান": 1500.0}, {"নাম": "আবুল কাসেম", "ঠিকানা": "নিজ", "পরিমান": 1000.0}, {"নাম": "সেদাউল হক", "ঠিকানা": "নিজ", "পরিমান": 2000.0}, {"নাম": "মো: জিয়াউল হক", "ঠিকানা": "দালালবস্তি", "পরিমান": 1000.0}, {"নাম": "সুমন", "ঠিকানা": "নিশ্চিন্তপুর (ঠাকুরগাও)", "পরিমান": 1200.0}, {"নাম": "জিয়াউর রহমান ", "ঠিকানা": "নিজ", "পরিমান": 1500.0}, {"নাম": "আব্দুল জলিল", "ঠিকানা": "তেলপাম্প", "পরিমান": 1000.0}, {"নাম": "তসলিমদ্দিন", "ঠিকানা": "তেলপাম্প", "পরিমান": 1000.0}, {"নাম": "দবিরুল ইসলাম (সাংবাদিক)", "ঠিকানা": "নিজ", "পরিমান": 1000.0}, {"নাম": "তোফায়েল হোসেন", "ঠিকানা": "ঠাকুরগাও", "পরিমান": 2000.0}, {"নাম": "রুবেল চৌধুরী ", "ঠিকানা": "দোগাছী", "পরিমান": 3002.0}, {"নাম": "নবাব", "ঠিকানা": "নিশ্চিন্তপুর", "পরিমান": 2000.0}, {"নাম": "মো: ফজলুর রহমান মন্টু", "ঠিকানা": "নিজ (সেন্টারপাড়া)", "পরিমান": 2100.0}, {"নাম": "রসিদুল", "ঠিকানা": "ফুলবাড়ী", "পরিমান": 1000.0}, {"নাম": "সোলেম ইনচার্জ", "ঠিকানা": "সেন্টারপাড়া", "পরিমান": 1000.0}, {"নাম": "বজলুর রহমান", "ঠিকানা": "নিজ", "পরিমান": 2050.0}, {"নাম": "মো: মাহবুব আলম", "ঠিকানা": "সেন্টারপাড়া", "পরিমান": 1150.0}, {"নাম": "খয়ের হোসেন", "ঠিকানা": "নিজ", "পরিমান": 500.0}, {"নাম": "মো: রুহুল আমিন", "ঠিকানা": "গিলাবাড়ি", "পরিমান": 25000.0}, {"নাম": "মো: আব্দুস সামাদ", "ঠিকানা": "তেলপাম", "পরিমান": 1210.0}, {"নাম": "সহিদুল ইসলাম", "ঠিকানা": "তেলপাম", "পরিমান": 1220.0}, {"নাম": "মোছা: হাসিনা", "ঠিকানা": "তেলপাম", "পরিমান": 500.0}, {"নাম": "মো: আব্দুর রহমান", "ঠিকানা": "নিজ", "পরিমান": 2000.0}, {"নাম": "মো: আবু সালেহ মাস্টার", "ঠিকানা": "ফুলতলা, থানাপাড়া", "পরিমান": 2500.0}, {"নাম": "আব্দুর রহমান (জামাই)", "ঠিকানা": "কার্তিকাপাড়া", "পরিমান": 5500.0}, {"নাম": "রবিউল আলম", "ঠিকানা": "স্কুলপাড়া", "পরিমান": 2000.0}, {"নাম": "মো: হুমাইউন কবির", "ঠিকানা": "সাবাসপুর", "পরিমান": 2000.0}, {"নাম": "আব্দুল মান্নান (ক্যাশিয়ার)", "ঠিকানা": "দিনাজপুর ", "পরিমান": 2000.0}, {"নাম": "মো: বেলাল উদ্দিন", "ঠিকানা": "তেলপাম্প", "পরিমান": 1000.0}, {"নাম": "ঠান্ডু", "ঠিকানা": "নিজ", "পরিমান": 1100.0}, {"নাম": "মোছা: জান্নাতুল ফেরদৌস", "ঠিকানা": "ঠাকুরগাঁও, কলেজপাড়া", "পরিমান": 1500.0}, {"নাম": "সাব্বির হোসেন", "ঠিকানা": "মিস্ত্রিপাড়া", "পরিমান": 1000.0}, {"নাম": "জাহাঙ্গীর", "ঠিকানা": "মাদারগঞ্জ", "পরিমান": 2000.0}, {"নাম": "মো: দুলাল", "ঠিকানা": "নুনতোর", "পরিমান": 7000.0}, {"নাম": "মরিয়ম", "ঠিকানা": "তেলপাম্প", "পরিমান": 500.0}, {"নাম": "রুবি", "ঠিকানা": "রায়মহল", "পরিমান": 8000.0}, {"নাম": "মো: ফকরুল ইসলাম", "ঠিকানা": "পাঠানপাড়া", "পরিমান": 8000.0}, {"নাম": "মো: আরিফুর রহমান", "ঠিকানা": "সনগাও", "পরিমান": 3500.0}, {"নাম": "মামুন", "ঠিকানা": "বুনিয়াডাঙী", "পরিমান": 1500.0}, {"নাম": "হুমায়ুন মাস্টার", "ঠিকানা": "মরিচপাড়া", "পরিমান": 2000.0}, {"নাম": "মো: জালাল উদ্দীন ", "ঠিকানা": "পেট্রোলপাম্প", "পরিমান": 1510.0}, {"নাম": "তসলিম (মাস্টার)", "ঠিকানা": "নিজ", "পরিমান": 1500.0}, {"নাম": "আব্দুর রশিদ (হেডমাস্টার)", "ঠিকানা": "দুওসুও", "পরিমান": 2000.0}, {"নাম": "দুলাল", "ঠিকানা": "চচপাড়া", "পরিমান": 5000.0}, {"নাম": "মোজাফফর", "ঠিকানা": "বালিয়াডাঙী", "পরিমান": 1000.0}, {"নাম": "মো: আবুল হোসেন", "ঠিকানা": "নারগুন", "পরিমান": 2000.0}, {"নাম": "শাহ আলম", "ঠিকানা": "নিশ্চিন্তপুর", "পরিমান": 5000.0}, {"নাম": "নেনমাই", "ঠিকানা": "নিজ", "পরিমান": 2000.0}, {"নাম": "কিবরিয়া", "ঠিকানা": "কানি কশাল গাও", "পরিমান": 10000.0}, {"নাম": "সোয়েব ", "ঠিকানা": "রাজাগাও", "পরিমান": 10000.0}, {"নাম": "খাদেমুল", "ঠিকানা": "রুপগঞ্জ", "পরিমান": 3000.0}, {"নাম": "মোঃ মানিক", "ঠিকানা": "আখানগর", "পরিমান": 5000.0}, {"নাম": "আবুল হোসেন", "ঠিকানা": "তেলপাম্প", "পরিমান": 1500.0}, {"নাম": "দবিরুল ইসলাম", "ঠিকানা": "তেলপাম্প", "পরিমান": 2000.0}, {"নাম": "আবুল রব্বানি", "ঠিকানা": "গোয়ালকারী", "পরিমান": 5000.0}, {"নাম": "জয়নাল আবেদিন", "ঠিকানা": "লাহিড়ী", "পরিমান": 2000.0}, {"নাম": "আব্দুর রব", "ঠিকানা": "কালমেঘ", "পরিমান": 2000.0}, {"নাম": "আব্দুর রহমান", "ঠিকানা": "নিজ", "পরিমান": 1500.0}, {"নাম": "হাফিজুল রহমান", "ঠিকানা": "চচপাড়া", "পরিমান": 2000.0}, {"নাম": "খাইরুল (গার্মেন্স)", "ঠিকানা": "বালিয়াডঙী", "পরিমান": 2020.0}, {"নাম": "ফজলে এলাহি রাব্বি", "ঠিকানা": "ঠাকুরগাঁও", "পরিমান": 5000.0}, {"নাম": "আল মামুন (ভাতিজা)", "ঠিকানা": "নিজ (কাজীফার্মস)", "পরিমান": 2000.0}, {"নাম": "অধ্যক্ষ মোঃ আলমগির", "ঠিকানা": "নিজ", "পরিমান": 2000.0}, {"নাম": "বসিরুদ্দিন", "ঠিকানা": "নিজ", "পরিমান": 5000.0}, {"নাম": "মশিউর রহমান সাংবাদিক", "ঠিকানা": "নিজ", "পরিমান": 3000.0}, {"নাম": "হামিদুল (বড্ডো)", "ঠিকানা": "নিজ", "পরিমান": 1000.0}, {"নাম": "লিলি মামুন ", "ঠিকানা": "বিমান", "পরিমান": 2000.0}, {"নাম": "রফিকুল আমির ", "ঠিকানা": "বালিয়াডাঙী", "পরিমান": 3000.0}, {"নাম": "নজরুল ইসলাম", "ঠিকানা": "বড় খোচাবাড়ি", "পরিমান": 10000.0}, {"নাম": "বাবলুর রহমান", "ঠিকানা": "ঠাকুরগাঁও", "পরিমান": 10000.0}, {"নাম": "তোযাম্মেল হক", "ঠিকানা": "চাড়োল", "পরিমান": 20000.0}];
+
+    const elements = {
+        tableBody: document.getElementById('tableBody'),
+        searchInput: document.getElementById('searchInput'),
+        resultCount: document.getElementById('resultCount'), 
+        totalAmount: document.getElementById('totalAmount'),
+        totalContributors: document.getElementById('totalContributors'),
+        noResults: document.getElementById('noResults'),
+        btnIncrease: document.getElementById('btnIncrease'),
+        btnDecrease: document.getElementById('btnDecrease'),
+        btnPrint: document.getElementById('btnPrint')
+    };
+
+    // Phonetic Map (Banglish)
+    const phoneticMap = {
+        'অ': 'o', 'আ': 'a', 'ই': 'i', 'ঈ': 'i', 'উ': 'u', 'ঊ': 'u', 'ঋ': 'r', 'এ': 'e', 'ঐ': 'oi', 'ও': 'o', 'ঔ': 'ou',
+        'ক': 'k', 'খ': 'kh', 'গ': 'g', 'ঘ': 'gh', 'ঙ': 'ng', 'চ': 'ch', 'ছ': 'ch', 'জ': 'j', 'ঝ': 'jh', 'ঞ': 'n',
+        'ট': 't', 'ঠ': 'th', 'ড': 'd', 'ঢ': 'dh', 'ণ': 'n', 'ত': 't', 'থ': 'th', 'দ': 'd', 'ধ': 'dh', 'ন': 'n',
+        'প': 'p', 'ফ': 'f', 'ব': 'b', 'ভ': 'bh', 'ম': 'm', 'য': 'z', 'র': 'r', 'ল': 'l', 'শ': 's', 'ষ': 's', 'স': 's', 
+        'হ': 'h', 'ড়': 'r', 'ঢ়': 'rh', 'য়': 'y', 'ৎ': 't', 'ং': 'ng', 'ঃ': '', 'ঁ': 'n', 'া': 'a', 'ি': 'i', 'ী': 'i', 
+        'ু': 'u', 'ূ': 'u', 'ৃ': 'r', 'ে': 'e', 'ৈ': 'oi', 'ো': 'o', 'ৌ': 'ou', '্': '', 'ৗ': 'ou'
+    };
+
+    function toBanglish(str) {
+        if (!str) return '';
+        return str.split('').map(char => phoneticMap[char] || char).join('').toLowerCase();
+    }
+
+    function toBanglaDigits(str) {
+        const map = { '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪', '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯' };
+        return str.toString().replace(/\d/g, match => map[match]);
+    }
+
+    // --- LEVENSHTEIN DISTANCE (Fuzzy Search Algorithm) ---
+    function levenshtein(a, b) {
+        if (a.length === 0) return b.length; 
+        if (b.length === 0) return a.length; 
+
+        var matrix = [];
+        var i;
+        for (i = 0; i <= b.length; i++) {
+            matrix[i] = [i];
+        }
+        var j;
+        for (j = 0; j <= a.length; j++) {
+            matrix[0][j] = j;
+        }
+
+        for (i = 1; i <= b.length; i++) {
+            for (j = 1; j <= a.length; j++) {
+                if (b.charAt(i - 1) == a.charAt(j - 1)) {
+                    matrix[i][j] = matrix[i - 1][j - 1];
+                } else {
+                    matrix[i][j] = Math.min(
+                        matrix[i - 1][j - 1] + 1, 
+                        Math.min(
+                            matrix[i][j - 1] + 1, 
+                            matrix[i - 1][j] + 1 
+                        )
+                    );
+                }
+            }
+        }
+
+        return matrix[b.length][a.length];
+    }
+
+    function isFuzzyMatch(text, query) {
+        if (!text || !query) return false;
+        
+        if (text.includes(query)) return true;
+        if (Math.abs(text.length - query.length) > 3) return false;
+
+        const dist = levenshtein(text, query);
+        const allowedErrors = query.length < 5 ? 1 : 2;
+
+        return dist <= allowedErrors;
+    }
+
+    // Prepare Data
+    rawData.forEach((item, index) => {
+        item.originalSerial = index + 1;
+        item.banglishName = toBanglish(item['নাম']);
+        item.banglishAddress = toBanglish(item['ঠিকানা']);
+    });
+
+    // Calculate Fixed Totals
+    const grandTotal = rawData.reduce((sum, item) => sum + (item['পরিমান'] || 0), 0);
+    elements.totalAmount.textContent = toBanglaDigits(grandTotal.toLocaleString());
+    elements.totalContributors.textContent = toBanglaDigits(rawData.length);
+
+    // State
+    let currentState = {
+        filteredData: [...rawData],
+        fontSize: window.innerWidth < 600 ? 18 : 20,
+        sortMode: 0 // 0: Default (Serial), 1: Desc (High->Low), 2: Asc (Low->High)
+    };
+
+    function render() {
+        let displayData = [...currentState.filteredData];
+
+        // Sort Logic
+        if (currentState.sortMode === 1) {
+            // High to Low
+            displayData.sort((a, b) => (b['পরিমান'] || 0) - (a['পরিমান'] || 0));
+        } else if (currentState.sortMode === 2) {
+            // Low to High
+            displayData.sort((a, b) => (a['পরিমান'] || 0) - (b['পরিমান'] || 0));
+        } else {
+            // Default: Original Serial
+            // We sort by originalSerial just in case filter messed up order
+            displayData.sort((a, b) => a.originalSerial - b.originalSerial);
+        }
+        
+        // Result Count Text
+        if (currentState.filteredData.length < rawData.length) {
+            elements.resultCount.textContent = `${toBanglaDigits(currentState.filteredData.length)} জন খুঁজে পাওয়া গেছে`;
+        } else {
+            elements.resultCount.textContent = ""; 
+        }
+
+        elements.tableBody.innerHTML = '';
+        
+        if (displayData.length === 0) {
+            elements.noResults.style.display = 'block';
+        } else {
+            elements.noResults.style.display = 'none';
+            const fragment = document.createDocumentFragment();
+            
+            displayData.forEach((item) => {
+                const tr = document.createElement('tr');
+                
+                const tdSerial = document.createElement('td');
+                tdSerial.className = 'col-serial';
+                tdSerial.textContent = toBanglaDigits(item.originalSerial);
+
+                const tdInfo = document.createElement('td');
+                tdInfo.className = 'col-info';
+                
+                const divName = document.createElement('div');
+                divName.style.fontWeight = '600';
+                divName.textContent = item['নাম'];
+                
+                const divAddress = document.createElement('div');
+                divAddress.style.fontSize = '0.9em';
+                divAddress.style.color = '#64748b';
+                divAddress.style.lineHeight = '1.3';
+                divAddress.style.marginTop = '2px';
+                divAddress.textContent = item['ঠিকানা'] || '';
+                
+                tdInfo.appendChild(divName);
+                if(item['ঠিকানা']) tdInfo.appendChild(divAddress);
+
+                const tdAmount = document.createElement('td');
+                tdAmount.className = 'col-amount';
+                tdAmount.textContent = toBanglaDigits((item['পরিমান'] || 0).toLocaleString());
+                
+                tr.appendChild(tdSerial);
+                tr.appendChild(tdInfo);
+                tr.appendChild(tdAmount);
+                fragment.appendChild(tr);
+            });
+            elements.tableBody.appendChild(fragment);
+        }
+    }
+
+    // Logic
+    function handleSearch(e) {
+        let query = e.target.value.toLowerCase().trim();
+        const normalizedQuery = query.replace(/sh/g, 's').replace(/ph/g, 'f');
+        
+        if (!query) {
+            currentState.filteredData = [...rawData];
+        } else {
+            currentState.filteredData = rawData.filter(item => {
+                const name = (item['নাম'] || '').toLowerCase();
+                const bName = item.banglishName;
+                
+                if (name.includes(query)) return true;
+                if (bName.includes(normalizedQuery)) return true;
+                
+                const nameParts = bName.split(' ');
+                for (let part of nameParts) {
+                    if (isFuzzyMatch(part, normalizedQuery)) return true;
+                }
+
+                return false;
+            });
+        }
+        render();
+    }
+
+    function updateFontSize(change) {
+        const newSize = currentState.fontSize + change;
+        if (newSize >= 14 && newSize <= 32) {
+            currentState.fontSize = newSize;
+            document.body.style.setProperty('--base-font-size', `${newSize}px`);
+        }
+    }
+
+    // Event Listeners
+    elements.searchInput.addEventListener('input', handleSearch);
+    elements.btnIncrease.addEventListener('click', () => updateFontSize(2));
+    elements.btnDecrease.addEventListener('click', () => updateFontSize(-2));
+    elements.btnPrint.addEventListener('click', () => window.print());
+    
+    // Radio Button Listeners
+    document.querySelectorAll('input[name="sortMode"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            currentState.sortMode = parseInt(e.target.value);
+            render();
+        });
+    });
+
+    render();
+</script>
+
+</body>
+</html>
