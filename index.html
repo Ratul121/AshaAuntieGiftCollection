@@ -97,6 +97,11 @@
             line-height: 1.2;
         }
 
+        /* Print Summary (Hidden on Screen) */
+        .print-summary {
+            display: none;
+        }
+
         /* Controls Area */
         .controls-area {
             display: flex;
@@ -289,64 +294,87 @@
 
         /* --- PRINT STYLES --- */
         @media print {
-            .controls-area, .sticky-header, .no-print {
-                display: none !important;
+            @page {
+                size: A4;
+                margin: 1.5cm;
             }
+
             body {
                 background: white;
                 color: black;
-                font-size: 14px;
+                font-size: 12pt;
                 padding: 0;
+                margin: 0;
             }
+            
+            /* Hide UI Elements */
+            .controls-area, .sticky-header, .stats-grid, .no-print, .subtitle {
+                display: none !important;
+            }
+
+            /* Reset Containers */
             .container {
                 max-width: 100%;
+                width: 100%;
                 box-shadow: none;
                 margin: 0;
                 padding: 0;
             }
+
+            /* Header Adjustments */
             header {
                 box-shadow: none;
                 margin-bottom: 10px;
                 padding: 0;
                 border: none;
+                text-align: center;
             }
             h1 {
                 color: black;
-                font-size: 18pt;
+                font-size: 24pt;
+                margin-bottom: 10px;
             }
-            .stat-card {
-                background: none !important;
-                color: black !important;
-                border: 1px solid #000;
-                box-shadow: none;
+
+            /* Print Summary Table */
+            .print-summary {
+                display: block;
+                text-align: center;
+                margin-bottom: 20px;
                 padding: 10px;
+                border: 1px solid #000;
+                font-size: 14pt;
             }
-            .stat-value {
-                font-size: 1.2em;
-            }
+            
+            /* Table Adjustments */
             .table-container {
                 box-shadow: none;
                 border: none;
                 border-radius: 0;
+                overflow: visible !important;
             }
             table {
                 width: 100%;
+                border-collapse: collapse;
+            }
+            thead {
+                display: table-header-group; /* Repeats headers on new pages */
+            }
+            tr {
+                page-break-inside: avoid; /* Prevents row splitting */
             }
             th, td {
-                border: 1px solid #000;
+                border: 1px solid #000 !important; /* Force border */
                 color: black;
                 padding: 8px;
+                font-size: 12pt;
             }
             th {
-                background-color: #eee !important;
+                background-color: #f0f0f0 !important;
                 -webkit-print-color-adjust: exact;
+                font-weight: bold;
             }
             .col-amount {
                 color: black;
-            }
-            /* Hide URL/Page info if possible (browser dependent) */
-            @page {
-                margin: 1cm;
             }
         }
 
@@ -372,7 +400,7 @@
         <div class="subtitle">সহজ ড্যাশবোর্ড</div>
     </header>
 
-    <!-- Big Numbers -->
+    <!-- Interactive Stats (Hidden on Print) -->
     <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-label">মোট টাকা</div>
@@ -382,6 +410,12 @@
             <div class="stat-label">মোট মানুষ</div>
             <div class="stat-value" id="totalContributors">০</div>
         </div>
+    </div>
+
+    <!-- Print Only Summary -->
+    <div class="print-summary">
+        <strong>সর্বমোট সংগ্রহ:</strong> <span id="printTotalAmount"></span> | 
+        <strong>মোট দাতা:</strong> <span id="printTotalContributors"></span>
     </div>
 
     <div class="controls-area">
@@ -458,6 +492,8 @@
         resultCount: document.getElementById('resultCount'), 
         totalAmount: document.getElementById('totalAmount'),
         totalContributors: document.getElementById('totalContributors'),
+        printTotalAmount: document.getElementById('printTotalAmount'), // New for Print
+        printTotalContributors: document.getElementById('printTotalContributors'), // New for Print
         noResults: document.getElementById('noResults'),
         btnIncrease: document.getElementById('btnIncrease'),
         btnDecrease: document.getElementById('btnDecrease'),
@@ -539,8 +575,12 @@
 
     // Calculate Fixed Totals
     const grandTotal = rawData.reduce((sum, item) => sum + (item['পরিমান'] || 0), 0);
+    // UI Totals
     elements.totalAmount.textContent = toBanglaDigits(grandTotal.toLocaleString());
     elements.totalContributors.textContent = toBanglaDigits(rawData.length);
+    // Print Totals
+    elements.printTotalAmount.textContent = toBanglaDigits(grandTotal.toLocaleString()) + ' ৳';
+    elements.printTotalContributors.textContent = toBanglaDigits(rawData.length) + ' জন';
 
     // State
     let currentState = {
